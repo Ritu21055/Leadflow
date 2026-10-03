@@ -186,6 +186,7 @@ export default function MyCase({ token, user }) {
   }
 
   return (
+    <>
     <section className="card">
       <p className="eyebrow">My Case</p>
       <h1>{caseRecord.name}</h1>
@@ -212,16 +213,20 @@ export default function MyCase({ token, user }) {
           <dd>{caseRecord.brokerageName || user.brokerageName || '—'}</dd>
         </div>
       </dl>
+    </section>
 
+    <section className="card documents-panel" id="documents">
       <h2>Documents</h2>
+      <p className="lede">Choose a file, then upload it to this case.</p>
       {error ? <p className="error">{error}</p> : null}
       <form className="upload-box" onSubmit={handleUpload}>
-        <label>
-          File
+        <label className="file-picker">
+          <span className="choose-file">Choose file</span>
           <input type="file" onChange={(event) => setFile(event.target.files[0] || null)} />
+          <strong className="file-name">{file ? file.name : 'No file selected'}</strong>
         </label>
         <button type="submit" disabled={uploading}>
-          {uploading ? 'Uploading...' : 'Upload document'}
+          {uploading ? 'Uploading...' : 'Upload'}
         </button>
       </form>
       {documents.length === 0 ? <p className="hint">No documents yet.</p> : null}
@@ -239,5 +244,6 @@ export default function MyCase({ token, user }) {
         </ul>
       ) : null}
     </section>
+    </>
   );
 }
