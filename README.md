@@ -238,7 +238,7 @@ A missing or unknown `x-webhook-secret` returns `401`.
 
 ## Deployment
 
-Run the API and the worker as two processes on the host. Build the frontend separately.
+On Render, `npm start` runs the API and, because `NODE_ENV` is `production`, starts the same worker inside that process. Locally, keep the API and worker as separate processes. Build the frontend separately.
 API:
 
 ```powershell

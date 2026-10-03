@@ -3,6 +3,7 @@ require('dotenv').config();
 const app = require('./app');
 const connectDB = require('./config/db');
 const attachSockets = require('./sockets');
+const { startWorker } = require('./workers/processJobs');
 const watchDocumentStatus = require('./sockets/watchDocumentStatus');
 const watchTasks = require('./sockets/watchTasks');
 
@@ -17,6 +18,12 @@ connectDB()
     app.set('io', io);
     watchDocumentStatus(io);
     watchTasks(io);
+
+    if (process.env.NODE_ENV === 'production') {
+      startWorker().catch((error) => {
+        console.error('Worker failed to start:', error.message);
+      });
+    }
   })
   .catch((error) => {
     console.error('Failed to start API:', error.message);

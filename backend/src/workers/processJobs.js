@@ -160,7 +160,14 @@ async function processNextJob() {
   return true;
 }
 
+let workerStarted = false;
+
 async function startWorker() {
+  if (workerStarted) {
+    return;
+  }
+
+  workerStarted = true;
   await connectDB();
   console.log('Worker polling for jobs');
 
@@ -183,4 +190,5 @@ if (require.main === module) {
 
 module.exports = {
   processNextJob,
+  startWorker,
 };
