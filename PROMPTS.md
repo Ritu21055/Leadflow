@@ -61,3 +61,15 @@ LeadFlow — PROMPTS.md
 51. I added the Cloudinary credentials. Check the upload setup again.
     — Cloudinary credentials were added manually, then the setup was checked again.
 52. Polish the UI, clean up the Login page, audit the project and prepare the README, PROMPTS.md and final submission.
+53. Check all frontend/backend production URLs and replace localhost API/Socket.IO references with the deployed Render URL.
+    — Vercel login was failing because Render CORS was still allowing localhost.
+54. Fix the production CORS configuration and set CLIENT_ORIGIN to the Vercel frontend URL.
+    — After the change, login/API requests from Vercel could reach Render.
+55. Verify the Tally webhook integration on the deployed backend and tell me the exact Tally dashboard setup.
+    — Tally webhook was delivered successfully, but the real lead still needed to be created.
+56. Check why the Tally submission is delivered but Riya's lead is not appearing in LeadFlow.
+    — The webhook job was pending because the production worker was not running.
+57. Run the existing worker inside the same free Render Web Service because a separate Background Worker is paid.
+    — Updated the production server to start the existing worker; Riya's pending job was then processed.
+58. Verify the complete production Tally flow and confirm the lead is created in LeadFlow.
+    — Riya appeared in LeadFlow with source tally.
