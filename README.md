@@ -266,8 +266,8 @@ Serve the `frontend/dist` folder. Set these for the deployed environment:
 
 - `MONGO_URI`, `JWT_SECRET`, `JWT_EXPIRES_IN`
 - `PORT`
-- `CLIENT_ORIGIN` to the public frontend origin, for example `https://app.example.com`
-- `VITE_API_URL` to the public API origin before the frontend build, for example `https://api.example.com`
+- `CLIENT_ORIGIN` to `https://leadflow-frontend-steel.vercel.app`
+- `VITE_API_URL` to `https://leadflow-7cxt.onrender.com` before the frontend build
 - Cloudinary variables on the API process
 - SMTP variables on the worker process
   After the API has a public `https` URL, connect Tally as described above.

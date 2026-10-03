@@ -1,10 +1,11 @@
 const jwt = require('jsonwebtoken');
 const { Server } = require('socket.io');
+const clientOrigin = require('../config/clientOrigin');
 
 function attachSockets(server) {
   const io = new Server(server, {
     cors: {
-      origin: process.env.CLIENT_ORIGIN || 'http://localhost:5173',
+      origin: clientOrigin(),
     },
   });
 
