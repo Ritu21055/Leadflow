@@ -58,7 +58,7 @@ cd ../frontend
 npm install
 ```
 
-2. Create `backend/.env` from `backend/.env.example`. Fill in the values from the sections below. Do not commit this file.
+2. Create `backend/.env` and fill in the values from the sections below. Do not commit this file.
 3. Create `frontend/.env`:
 
 ```
