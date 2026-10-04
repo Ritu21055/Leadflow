@@ -194,6 +194,26 @@ export function completeTask(token, id) {
   });
 }
 
+export function getBrokerages(token) {
+  return request('/api/platform/brokerages', { token });
+}
+
+export function createBrokerage(token, name) {
+  return request('/api/platform/brokerages', {
+    method: 'POST',
+    token,
+    body: { name },
+  });
+}
+
+export function createBrokerageAdmin(token, admin) {
+  return request('/api/platform/brokerage-admins', {
+    method: 'POST',
+    token,
+    body: admin,
+  });
+}
+
 export function deleteLead(token, id) {
   return request(`/api/leads/${id}`, {
     method: 'DELETE',

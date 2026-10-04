@@ -6,6 +6,7 @@ import Leads from './pages/Leads';
 import Tasks from './pages/Tasks';
 import Login from './pages/Login';
 import MyCase from './pages/MyCase';
+import PlatformAdmin from './pages/PlatformAdmin';
 
 const TOKEN_KEY = 'leadflow_token';
 
@@ -22,6 +23,7 @@ const ICONS = {
   tasks: 'M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01',
   templates: 'M5 5h14v14H5zM8 9h8M8 13h5',
   account: 'M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm-7 8a7 7 0 0 1 14 0',
+  brokerages: 'M4 20V9l8-5 8 5v11M9 20v-5h6v5',
   logout: 'M10 7V5a2 2 0 0 1 2-2h7v18h-7a2 2 0 0 1-2-2v-2M15 12H3m0 0 3-3m-3 3 3 3',
   menu: 'M4 7h16M4 12h16M4 17h16',
 };
@@ -56,6 +58,9 @@ export default function App() {
       .then((data) => {
         if (!cancelled) {
           setUser(data.user);
+          if (data.user.role === 'platform_admin') {
+            setView('brokerages');
+          }
         }
       })
       .catch(() => {
@@ -83,7 +88,7 @@ export default function App() {
     setLoading(false);
     setCheckResult('');
     setCheckError('');
-    setView('account');
+    setView(nextUser.role === 'platform_admin' ? 'brokerages' : 'account');
   }
 
   function handleLogout() {
@@ -127,13 +132,18 @@ export default function App() {
   const roleLabel = ROLE_LABELS[user.role] || user.role;
   const navItems = user.role === 'client'
     ? []
-    : [
-        user.brokerageId ? ['dashboard', 'Dashboard'] : null,
-        ['leads', 'Leads'],
-        user.role === 'brokerage_admin' || user.role === 'advisor' ? ['tasks', 'Tasks'] : null,
-        user.role === 'brokerage_admin' ? ['email', 'Templates'] : null,
-        ['account', 'Account'],
-      ].filter(Boolean);
+    : user.role === 'platform_admin'
+      ? [
+          ['brokerages', 'Brokerages'],
+          ['account', 'Account'],
+        ]
+      : [
+          user.brokerageId ? ['dashboard', 'Dashboard'] : null,
+          ['leads', 'Leads'],
+          user.role === 'brokerage_admin' || user.role === 'advisor' ? ['tasks', 'Tasks'] : null,
+          user.role === 'brokerage_admin' ? ['email', 'Templates'] : null,
+          ['account', 'Account'],
+        ].filter(Boolean);
 
   return (
     <div className="shell">
@@ -184,6 +194,8 @@ export default function App() {
         <main className="content">
           {user.role === 'client' ? <MyCase token={token} user={user} /> : null}
 
+          {user.role === 'platform_admin' && view === 'brokerages' ? <PlatformAdmin token={token} /> : null}
+
           {user.role !== 'client' && view === 'dashboard' && user.brokerageId ? <Dashboard token={token} /> : null}
 
           {user.role !== 'client' && view === 'email' && user.role === 'brokerage_admin' ? (
@@ -194,7 +206,7 @@ export default function App() {
             <Tasks token={token} user={user} />
           ) : null}
 
-          {user.role !== 'client' && view === 'leads' ? (
+          {user.role !== 'client' && user.role !== 'platform_admin' && view === 'leads' ? (
             user.brokerageId ? (
               <Leads token={token} role={user.role} />
             ) : (

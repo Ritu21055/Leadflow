@@ -10,6 +10,7 @@ const documentRoutes = require('./routes/documentRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
 const emailTemplateRoutes = require('./routes/emailTemplateRoutes');
 const taskRoutes = require('./routes/taskRoutes');
+const platformRoutes = require('./routes/platformRoutes');
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use('/api/documents', documentRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/email-templates', emailTemplateRoutes);
 app.use('/api', taskRoutes);
+app.use('/api/platform', platformRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Route not found' });
