@@ -1,75 +1,90 @@
 LeadFlow — PROMPTS.md
 
-1. Plan the LeadFlow architecture from the assignment. Don't code yet.
-2. Keep the project in JavaScript, not TypeScript.
-3. Confirm the MERN stack and external services we'll use.
-4. Set up JWT and bcrypt authentication for the four roles.
-5. Add brokerageId to users for tenant isolation.
-6. Add auth and role middleware.
-7. Create seed data for two brokerages and their users.
-8. Check why MongoDB Atlas is not connecting.
-   — MongoDB connection was being checked here.
-9. Fix the MongoDB connection using the configured environment variables.
-   — Credentials/connection settings were adjusted here.
-10. Check the MongoDB connection again after the credentials were set.
-    — Recheck after the fix.
-11. I have already set the MongoDB credentials. Continue and verify the connection.
-    — Continued after the credentials were already set.
-12. Check the issue shown in the screenshot.
-    — Used the screenshot to troubleshoot the current issue.
-13. Show me what is completed so far.
-14. Build the Lead model and lead CRUD APIs.
-15. Make every lead query use the logged-in brokerage.
-16. Add the fixed six-stage pipeline.
-17. Add the stage-change API for admins and advisors.
-18. Add version checking and return 409 for stale updates.
-19. Show leads in a simple Kanban pipeline.
-20. Add duplicate detection using email or phone.
-21. Make duplicate matching case-insensitive and brokerage-specific.
-22. Show a clear message when an existing person is found.
-23. Fix the client-match duplicate edge case so duplicateOf is only used for an existing lead.
-    — The client-match case was inconsistent, so the duplicate logic was fixed without changing normal lead-to-lead matching.
-24. Add the inbound lead webhook with a brokerage secret.
-25. Queue webhook leads in the MongoDB jobs collection.
-26. Add the background worker for lead-ingestion jobs.
-27. Add retry handling and save job errors.
-28. Add Socket.IO with brokerage-based rooms.
-29. Emit lead stage updates only after a successful database update.
-30. Refresh the board after a socket reconnect.
-31. Add Won-lead to client conversion.
-32. Create a client login and link it to the lead/case.
-33. Make the client see only their own case.
-34. Add client document upload and document listing.
-35. Protect document access by client, lead and brokerage.
-36. Send uploaded documents to a background checking job.
-37. Simulate checking with a delay and occasional failure.
-38. Send document status updates through Socket.IO.
-39. Build the brokerage dashboard with pipeline counts.
-40. Keep dashboard counts limited to the current brokerage.
-41. Add email templates with client/advisor placeholders.
-42. Queue stage-triggered emails through the existing worker.
-43. Check the Mailtrap SMTP setup and email test.
-    — Mailtrap setup needed verification before calling email sending complete.
-44. I updated the Mailtrap credentials. Restart the worker and run the email test again.
-    — After the SMTP credentials were changed, the worker was restarted and the test was run again.
-45. Add task rules and automatic task creation on stage entry.
-46. Add task completion and overdue task display.
-47. Connect Tally to the existing LeadFlow webhook.
-48. Map Tally name, email and phone fields to LeadFlow.
-49. Verify repeated Tally submissions do not create duplicate active leads.
-50. Move document storage from local disk to Cloudinary.
-51. I added the Cloudinary credentials. Check the upload setup again.
-    — Cloudinary credentials were added manually, then the setup was checked again.
-52. Polish the UI, clean up the Login page, audit the project and prepare the README, PROMPTS.md and final submission.
-53. Check all frontend/backend production URLs and replace localhost API/Socket.IO references with the deployed Render URL.
-    — Vercel login was failing because Render CORS was still allowing localhost.
-54. Fix the production CORS configuration and set CLIENT_ORIGIN to the Vercel frontend URL.
-    — After the change, login/API requests from Vercel could reach Render.
-55. Verify the Tally webhook integration on the deployed backend and tell me the exact Tally dashboard setup.
-    — Tally webhook was delivered successfully, but the real lead still needed to be created.
-56. Check why the Tally submission is delivered but Riya's lead is not appearing in LeadFlow.
-    — The webhook job was pending because the production worker was not running.
-57. Run the existing worker inside the same free Render Web Service because a separate Background Worker is paid.
-    — Updated the production server to start the existing worker; Riya's pending job was then processed.
-58. Verify the complete production Tally flow and confirm the lead is created in LeadFlow.
-    — Riya appeared in LeadFlow with source tally.
+1. first plan the leadflow architecture from the assignment, dont code yet
+2. use javascript only, dont use typescript
+3. tell me the tech stack and what external tools we are using
+4. setup jwt and bcrypt auth for all 4 roles
+5. add brokerageId in user so each brokerage data stays separate
+6. add auth middleware and role based middleware
+7. create seed data for 2 brokerages and users for both
+8. check why my mongodb atlas is not connecting
+   - mongo connection was being checked here
+
+9. fix the mongo connection using the env values
+   - credentials/connection settings were updated here
+
+10. check the mongo connection again after setting the credentials
+
+11. i already set the mongodb credentials, continue and verify the connection
+
+12. check this issue from the screenshot
+
+13. show me what we have completed till now
+14. create lead model and the basic crud apis
+15. make sure every lead query only gets leads from the logged in brokerage
+16. add the fixed 6 stage pipeline
+17. add api for changing stages for admin and advisor
+18. add version check and return 409 if someone is updating an old version
+19. show the leads in a simple kanban board
+20. add duplicate check using email or phone
+21. duplicate check should ignore upper/lower case and stay inside same brokerage
+22. show a clear message if this person already exists
+23. duplicateOf is pointing to client in one case, fix that so it only points to an existing lead
+
+- client duplicate case was inconsistent, fixed without changing normal lead matching
+
+24. add incoming lead webhook with brokerage secret
+25. put webhook leads into mongodb jobs collection first
+26. now add worker which picks the lead ingestion jobs
+27. add retry handling and save the error if a job fails
+28. add socket io and make rooms based on brokerage
+29. emit stage update only after database update is successful
+30. after socket reconnect refresh the board
+31. when a lead becomes won add conversion to client
+32. create client login and link it with the lead/case
+33. client should only be able to see their own case
+34. add client document upload and document list
+35. make sure docs are protected by client, lead and brokerage
+36. upload documents and send them to background checking job
+37. simulate document checking with some delay and sometimes fail it
+38. send document status updates using socket io
+39. build dashboard with pipeline counts
+40. dashboard counts should only be for the logged in brokerage
+41. add email templates with client and advisor placeholders
+42. queue the stage based emails through the worker
+43. check mailtrap smtp setup and test if email is actually going
+
+- mailtrap setup needed another verification before calling it complete
+
+44. i updated the mailtrap credentials, restart worker and test email again
+
+- after changing smtp credentials the worker was restarted and email test was run again
+
+45. add task rules and automatically create tasks when stage changes
+46. add task completion and overdue task display
+47. connect tally form with our existing webhook
+48. map tally name email and phone into lead fields
+49. check repeated tally submissions and make sure duplicate active leads are not created
+50. move document upload storage from local disk to cloudinary
+51. i added the cloudinary credentials, check the upload setup again
+
+- cloudinary credentials were added manually and setup was checked again
+
+52. polish the ui, clean up login page, audit the project and prepare readme, prompts and final submission
+53. check all frontend and backend production urls and replace localhost api/socket references with render url
+
+- vercel login was failing because render cors was still using localhost
+
+54. fix production cors and set CLIENT_ORIGIN to the vercel frontend url
+
+- after this, requests from vercel could reach render
+
+55. verify tally webhook on deployed backend and tell me the exact tally setup
+56. webhook is delivered but riya lead is not showing in leadflow, check why
+
+- webhook job was pending because production worker was not running
+
+57. separate render background worker is paid, run the existing worker in the same free web service
+58. verify the full production tally flow and confirm the lead gets created
+
+- riya appeared in leadflow with source tally
